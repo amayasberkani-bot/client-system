@@ -94,19 +94,24 @@
     };
 
     try {
-      await fetch("https://isotheral-unquestionably-alayna.ngrok-free.dev/webhook-test/ed0795a6-dcef-472d-b5f7-39cb2a199a90", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
+      const response = await fetch(
+        "https://isotheral-unquestionably-alayna.ngrok-free.dev/webhook/ed0795a6-dcef-472d-b5f7-39cb2a199a90",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        }
+      );
 
-      document.getElementById("successMessage").style.display = "block";
-      document.getElementById("propertyForm").reset();
+      if (response.ok) {
+        document.getElementById("successMessage").style.display = "block";
+        document.getElementById("propertyForm").reset();
+      } else {
+        alert("Error sending data. Please try again.");
+      }
 
     } catch (error) {
-      alert("Error sending data");
+      alert("Error sending data. Please check your connection.");
       console.error(error);
     }
   });
