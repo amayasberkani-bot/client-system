@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Property Inquiry – Automation Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #ffffff;
+      padding: 30px;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #1e40af;
+    }
+    .success {
+      text-align: center;
+      color: green;
+      display: none;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Property Inquiry</h2>
+
+  <form id="propertyForm">
+    <input type="text" id="full_name" placeholder="Full Name" required />
+    <input type="email" id="gmail" placeholder="Email Address" required />
+    <input type="tel" id="phone_number" placeholder="Phone Number" required />
+
+    <select id="property_title" required>
+      <option value="">Select Property</option>
+      <option value="Modern Apartment – Downtown">Modern Apartment – Downtown</option>
+      <option value="Luxury Villa – Suburbs">Luxury Villa – Suburbs</option>
+      <option value="Investment Land – City Edge">Investment Land – City Edge</option>
+    </select>
+
+    <textarea id="message_content" rows="4" placeholder="Your message..." required></textarea>
+
+    <button type="submit">Send Inquiry</button>
+  </form>
+
+  <div class="success" id="successMessage">
+    Message sent successfully.
+  </div>
+</div>
+
+<script>
+  document.getElementById("propertyForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const data = {
+      message_date: new Date().toISOString(),
+      full_name: document.getElementById("full_name").value,
+      gmail: document.getElementById("gmail").value,
+      phone_number: document.getElementById("phone_number").value,
+      property_title: document.getElementById("property_title").value,
+      message_content: document.getElementById("message_content").value
+    };
+
+    try {
+      await fetch("https://isotheral-unquestionably-alayna.ngrok-free.dev/webhook-test/ed0795a6-dcef-472d-b5f7-39cb2a199a90", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      document.getElementById("successMessage").style.display = "block";
+      document.getElementById("propertyForm").reset();
+
+    } catch (error) {
+      alert("Error sending data");
+      console.error(error);
+    }
+  });
+</script>
+
+</body>
+</html>
